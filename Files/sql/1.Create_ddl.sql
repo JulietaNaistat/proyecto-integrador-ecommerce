@@ -1,121 +1,109 @@
--- Crear base de datos
-CREATE DATABASE EcommerceDB;
-GO
+-- Cambios en el archivo DDL propuesto para adaptar a PostgreSQL
 
-USE EcommerceDB;
-GO
+-- Crear base de datos
+CREATE DATABASE "EcommerceDB";
+
 
 -- Tabla: Usuarios
 CREATE TABLE Usuarios (
-    UsuarioID INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(100) NOT NULL,
-    Apellido NVARCHAR(100) NOT NULL,
-    DNI NVARCHAR(20) UNIQUE NOT NULL,
-    Email NVARCHAR(255) UNIQUE NOT NULL,
-    Contraseña NVARCHAR(255) NOT NULL,
-    FechaRegistro DATETIME DEFAULT GETDATE()
+    UsuarioID SERIAL PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    Apellido VARCHAR(100) NOT NULL,
+    DNI VARCHAR(20) UNIQUE NOT NULL,
+    Email VARCHAR(255) UNIQUE NOT NULL,
+    Contraseña VARCHAR(255) NOT NULL,
+    FechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-GO
 
 -- Tabla: Categorías
 CREATE TABLE Categorias (
-    CategoriaID INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(100) NOT NULL,
-    Descripcion NVARCHAR(255)
+    CategoriaID SERIAL PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    Descripcion VARCHAR(255)
 );
-GO
 
 -- Tabla: Productos
 CREATE TABLE Productos (
-    ProductoID INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(255) NOT NULL,
-    Descripcion NVARCHAR(MAX),
+    ProductoID SERIAL PRIMARY KEY,
+    Nombre VARCHAR(255) NOT NULL,
+    Descripcion TEXT,
     Precio DECIMAL(10,2) NOT NULL,
     Stock INT NOT NULL,
-    CategoriaID INT FOREIGN KEY REFERENCES Categorias(CategoriaID)
+    CategoriaID INT REFERENCES Categorias(CategoriaID)
 );
-GO
 
 -- Tabla: Órdenes
 CREATE TABLE Ordenes (
-    OrdenID INT IDENTITY(1,1) PRIMARY KEY,
-    UsuarioID INT FOREIGN KEY REFERENCES Usuarios(UsuarioID),
-    FechaOrden DATETIME DEFAULT GETDATE(),
+    OrdenID SERIAL PRIMARY KEY,
+    UsuarioID INT REFERENCES Usuarios(UsuarioID),
+    FechaOrden TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Total DECIMAL(10,2) NOT NULL,
-    Estado NVARCHAR(50) DEFAULT 'Pendiente'
+    Estado VARCHAR(50) DEFAULT 'Pendiente'
 );
-GO
 
 -- Tabla: Detalle de Órdenes
-CREATE TABLE DetalleOrdenes (
-    DetalleID INT IDENTITY(1,1) PRIMARY KEY,
-    OrdenID INT FOREIGN KEY REFERENCES Ordenes(OrdenID),
-    ProductoID INT FOREIGN KEY REFERENCES Productos(ProductoID),
+CREATE TABLE Detalle_Ordenes (
+    DetalleID SERIAL PRIMARY KEY,
+    OrdenID INT REFERENCES Ordenes(OrdenID),
+    ProductoID INT REFERENCES Productos(ProductoID),
     Cantidad INT NOT NULL,
     PrecioUnitario DECIMAL(10,2) NOT NULL
 );
-GO
 
 -- Tabla: Direcciones de Envío
-CREATE TABLE DireccionesEnvio (
-    DireccionID INT IDENTITY(1,1) PRIMARY KEY,
-    UsuarioID INT FOREIGN KEY REFERENCES Usuarios(UsuarioID),
-    Calle NVARCHAR(255) NOT NULL,
-    Ciudad NVARCHAR(100) NOT NULL,
-    Departamento NVARCHAR(100),
-    Provincia NVARCHAR(100),
-    Distrito NVARCHAR(100),
-    Estado NVARCHAR(100),
-    CodigoPostal NVARCHAR(20),
-    Pais NVARCHAR(100) NOT NULL
+CREATE TABLE Direcciones_Envio (
+    DireccionID SERIAL PRIMARY KEY,
+    UsuarioID INT REFERENCES Usuarios(UsuarioID),
+    Calle VARCHAR(255) NOT NULL,
+    Ciudad VARCHAR(100) NOT NULL,
+    Departamento VARCHAR(100),
+    Provincia VARCHAR(100),
+    Distrito VARCHAR(100),
+    Estado VARCHAR(100),
+    CodigoPostal VARCHAR(20),
+    Pais VARCHAR(100) NOT NULL
 );
-GO
 
 -- Tabla: Carrito de Compras
 CREATE TABLE Carrito (
-    CarritoID INT IDENTITY(1,1) PRIMARY KEY,
-    UsuarioID INT FOREIGN KEY REFERENCES Usuarios(UsuarioID),
-    ProductoID INT FOREIGN KEY REFERENCES Productos(ProductoID),
+    CarritoID SERIAL PRIMARY KEY,
+    UsuarioID INT REFERENCES Usuarios(UsuarioID),
+    ProductoID INT REFERENCES Productos(ProductoID),
     Cantidad INT NOT NULL,
-    FechaAgregado DATETIME DEFAULT GETDATE()
+    FechaAgregado TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-GO
 
 -- Tabla: Métodos de Pago
-CREATE TABLE MetodosPago (
-    MetodoPagoID INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(100) NOT NULL,
-    Descripcion NVARCHAR(255)
+CREATE TABLE Metodos_Pago (
+    MetodoPagoID SERIAL PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    Descripcion VARCHAR(255)
 );
-GO
 
 -- Tabla: Ordenes Métodos de Pago
-CREATE TABLE OrdenesMetodosPago (
-    OrdenMetodoID INT IDENTITY(1,1) PRIMARY KEY,
-    OrdenID INT FOREIGN KEY REFERENCES Ordenes(OrdenID),
-    MetodoPagoID INT FOREIGN KEY REFERENCES MetodosPago(MetodoPagoID),
+CREATE TABLE Ordenes_MetodosPago (
+    OrdenMetodoID SERIAL PRIMARY KEY,
+    OrdenID INT REFERENCES Ordenes(OrdenID),
+    MetodoPagoID INT REFERENCES MetodosPago(MetodoPagoID),
     MontoPagado DECIMAL(10,2) NOT NULL
 );
-GO
 
 -- Tabla: Reseñas de Productos
-CREATE TABLE ReseñasProductos (
-    ReseñaID INT IDENTITY(1,1) PRIMARY KEY,
-    UsuarioID INT FOREIGN KEY REFERENCES Usuarios(UsuarioID),
-    ProductoID INT FOREIGN KEY REFERENCES Productos(ProductoID),
+CREATE TABLE Resenas_Productos (
+    ReseñaID SERIAL PRIMARY KEY,
+    UsuarioID INT REFERENCES Usuarios(UsuarioID),
+    ProductoID INT REFERENCES Productos(ProductoID),
     Calificacion INT CHECK (Calificacion >= 1 AND Calificacion <= 5),
-    Comentario NVARCHAR(MAX),
-    Fecha DATETIME DEFAULT GETDATE()
+    Comentario TEXT,
+    Fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-GO
 
 -- Tabla: Historial de Pagos
-CREATE TABLE HistorialPagos (
-    PagoID INT IDENTITY(1,1) PRIMARY KEY,
-    OrdenID INT FOREIGN KEY REFERENCES Ordenes(OrdenID),
-    MetodoPagoID INT FOREIGN KEY REFERENCES MetodosPago(MetodoPagoID),
+CREATE TABLE Historial_Pagos (
+    PagoID SERIAL PRIMARY KEY,
+    OrdenID INT REFERENCES Ordenes(OrdenID),
+    MetodoPagoID INT REFERENCES MetodosPago(MetodoPagoID),
     Monto DECIMAL(10,2) NOT NULL,
-    FechaPago DATETIME DEFAULT GETDATE(),
-    EstadoPago NVARCHAR(50) DEFAULT 'Procesando'
+    FechaPago TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    EstadoPago VARCHAR(50) DEFAULT 'Procesando'
 );
-GO

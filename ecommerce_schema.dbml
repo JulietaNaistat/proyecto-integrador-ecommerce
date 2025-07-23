@@ -1,0 +1,92 @@
+Table Usuarios {
+  UsuarioID serial [pk]
+  Nombre varchar(100)
+  Apellido varchar(100)
+  DNI varchar(20) [unique]
+  Email varchar(255) [unique]
+  Contraseña varchar(255)
+  FechaRegistro timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+Table Categorias {
+  CategoriaID serial [pk]
+  Nombre varchar(100)
+  Descripcion varchar(255)
+}
+
+Table Productos {
+  ProductoID serial [pk]
+  Nombre varchar(255)
+  Descripcion text
+  Precio decimal(10,2)
+  Stock int
+  CategoriaID int [ref: > Categorias.CategoriaID]
+}
+
+Table Ordenes {
+  OrdenID serial [pk]
+  UsuarioID int [ref: > Usuarios.UsuarioID]
+  FechaOrden timestamp [default: `CURRENT_TIMESTAMP`]
+  Total decimal(10,2)
+  Estado varchar(50) [default: 'Pendiente']
+}
+
+Table Detalle_Ordenes {
+  DetalleID serial [pk]
+  OrdenID int [ref: > Ordenes.OrdenID]
+  ProductoID int [ref: > Productos.ProductoID]
+  Cantidad int
+  PrecioUnitario decimal(10,2)
+}
+
+Table Direcciones_Envio {
+  DireccionID serial [pk]
+  UsuarioID int [ref: > Usuarios.UsuarioID]
+  Calle varchar(255)
+  Ciudad varchar(100)
+  Departamento varchar(100)
+  Provincia varchar(100)
+  Distrito varchar(100)
+  Estado varchar(100)
+  CodigoPostal varchar(20)
+  Pais varchar(100)
+}
+
+Table Carrito {
+  CarritoID serial [pk]
+  UsuarioID int [ref: > Usuarios.UsuarioID]
+  ProductoID int [ref: > Productos.ProductoID]
+  Cantidad int
+  FechaAgregado timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+Table Metodos_Pago {
+  MetodoPagoID serial [pk]
+  Nombre varchar(100)
+  Descripcion varchar(255)
+}
+
+Table Ordenes_MetodosPago {
+  OrdenMetodoID serial [pk]
+  OrdenID int [ref: > Ordenes.OrdenID]
+  MetodoPagoID int [ref: > Metodos_Pago.MetodoPagoID]
+  MontoPagado decimal(10,2)
+}
+
+Table Resenas_Productos {
+  ReseñaID serial [pk]
+  UsuarioID int [ref: > Usuarios.UsuarioID]
+  ProductoID int [ref: > Productos.ProductoID]
+  Calificacion int
+  Comentario text
+  Fecha timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+Table Historial_Pagos {
+  PagoID serial [pk]
+  OrdenID int [ref: > Ordenes.OrdenID]
+  MetodoPagoID int [ref: > Metodos_Pago.MetodoPagoID]
+  Monto decimal(10,2)
+  FechaPago timestamp [default: `CURRENT_TIMESTAMP`]
+  EstadoPago varchar(50) [default: 'Procesando']
+}
