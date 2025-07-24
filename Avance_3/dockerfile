@@ -1,0 +1,8 @@
+FROM python:3.12.10
+
+RUN pip install --upgrade pip \
+    && pip install dbt-core dbt-postgres
+
+WORKDIR /usr/app
+
+ENTRYPOINT [ "tail", "-f", "/dev/null" ]

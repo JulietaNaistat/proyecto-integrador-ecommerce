@@ -1,0 +1,18 @@
+
+version: '3.8'
+
+services:
+  dbt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dbt_container
+    volumes:
+    - .:/usr/app
+    - ./config:/root/.dbt
+    working_dir: /usr/app
+    environment:
+      DBT_PROFILES_DIR: /root/.dbt
+    entrypoint: ["dbt"]
+    tty: true
+

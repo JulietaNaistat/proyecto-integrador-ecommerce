@@ -1,0 +1,238 @@
+version: 1
+
+models:
+  - name: stg_usuarios
+    description: Modelo staging para la tabla Usuarios
+    columns:
+      - name: usuarioid
+        description: "Identificador único del usuario"
+        tests:
+          - unique
+          - not_null
+      - name: nombre
+        description: "Nombre del usuario"
+        tests:
+          - not_null
+      - name: apellido
+        description: "Apellido del usuario"
+        tests:
+          - not_null
+      - name: dni
+        description: "Documento Nacional de Identidad"
+        tests:
+          - unique
+          - not_null
+      - name: email
+        description: "Correo electrónico del usuario"
+        tests:
+          - unique
+          - not_null
+      - name: contraseña
+        description: "Contraseña encriptada del usuario"
+        tests:
+          - not_null
+      - name: fecharegistro
+        description: "Fecha de registro del usuario"
+
+  - name: stg_categorias
+    description: Modelo staging para la tabla Categorías
+    columns:
+      - name: categoriaid
+        description: "Identificador único de la categoría"
+        tests:
+          - unique
+          - not_null
+      - name: nombre
+        description: "Nombre de la categoría"
+        tests:
+          - not_null
+      - name: descripcion
+        description: "Descripción de la categoría"
+
+  - name: stg_productos
+    description: Modelo staging para la tabla Productos
+    columns:
+      - name: productoid
+        description: "Identificador único del producto"
+        tests:
+          - unique
+          - not_null
+      - name: nombre
+        description: "Nombre del producto"
+        tests:
+          - not_null
+      - name: descripcion
+        description: "Descripción del producto"
+      - name: precio
+        description: "Precio del producto"
+        tests:
+          - not_null
+      - name: stock
+        description: "Cantidad disponible en inventario"
+        tests:
+          - not_null
+      - name: categoriaid
+        description: "Identificador de la categoría del producto"
+
+  - name: stg_ordenes
+    description: Modelo staging para la tabla Órdenes
+    columns:
+      - name: ordenid
+        description: "Identificador único de la orden"
+        tests:
+          - unique
+          - not_null
+      - name: usuarioid
+        description: "Identificador del usuario que realizó la orden"
+      - name: fechaorden
+        description: "Fecha en que se realizó la orden"
+      - name: total
+        description: "Monto total de la orden"
+        tests:
+          - not_null
+      - name: estado
+        description: "Estado actual de la orden"
+
+  - name: stg_detalle_ordenes
+    description: Modelo staging para la tabla Detalle de Órdenes
+    columns:
+      - name: detalleid
+        description: "Identificador único del detalle de orden"
+        tests:
+          - unique
+          - not_null
+      - name: ordenid
+        description: "Identificador de la orden"
+      - name: productoid
+        description: "Identificador del producto"
+      - name: cantidad
+        description: "Cantidad del producto en la orden"
+        tests:
+          - not_null
+      - name: preciounitario
+        description: "Precio unitario del producto en la orden"
+        tests:
+          - not_null
+
+  - name: stg_direcciones_envio
+    description: Modelo staging para la tabla Direcciones de Envío
+    columns:
+      - name: direccionid
+        description: "Identificador único de la dirección"
+        tests:
+          - unique
+          - not_null
+      - name: usuarioid
+        description: "Identificador del usuario asociado"
+      - name: calle
+        description: "Nombre de la calle"
+        tests:
+          - not_null
+      - name: ciudad
+        description: "Ciudad de la dirección"
+        tests:
+          - not_null
+      - name: departamento
+        description: "Departamento de la dirección"
+      - name: provincia
+        description: "Provincia de la dirección"
+      - name: distrito
+        description: "Distrito de la dirección"
+      - name: estado
+        description: "Estado o región"
+      - name: codigopostal
+        description: "Código postal"
+      - name: pais
+        description: "País de la dirección"
+        tests:
+          - not_null
+  - name: stg_carrito
+    description: Modelo staging para la tabla Carrito de Compras
+    columns:
+      - name: carritoid
+        description: "Identificador único del carrito"
+        tests:
+          - unique
+          - not_null
+      - name: usuarioid
+        description: "Identificador del usuario"
+      - name: productoid
+        description: "Identificador del producto"
+      - name: cantidad
+        description: "Cantidad del producto en el carrito"
+        tests:
+          - not_null
+      - name: fechaagregado
+        description: "Fecha en que se agregó el producto al carrito"
+
+  - name: stg_metodos_pago
+    description: Modelo staging para la tabla Métodos de Pago
+    columns:
+      - name: metodopagoid
+        description: "Identificador único del método de pago"
+        tests:
+          - unique
+          - not_null
+      - name: nombre
+        description: "Nombre del método de pago"
+        tests:
+          - not_null
+      - name: descripcion
+        description: "Descripción del método de pago"
+
+  - name: stg_ordenes_metodospago
+    description: Modelo staging para la tabla Ordenes Métodos de Pago
+    columns:
+      - name: ordenmetodoid
+        description: "Identificador único del método de pago aplicado a una orden"
+        tests:
+          - unique
+          - not_null
+      - name: ordenid
+        description: "Identificador de la orden"
+      - name: metodopagoid
+        description: "Identificador del método de pago"
+      - name: montopagado
+        description: "Monto pagado con este método"
+        tests:
+          - not_null
+
+  - name: stg_resenas_productos
+    description: Modelo staging para la tabla Reseñas de Productos
+    columns:
+      - name: reseñaid
+        description: "Identificador único de la reseña"
+        tests:
+          - unique
+          - not_null
+      - name: usuarioid
+        description: "Identificador del usuario que hizo la reseña"
+      - name: productoid
+        description: "Identificador del producto reseñado"
+      - name: calificacion
+        description: "Calificación del producto (1 a 5)"
+      - name: comentario
+        description: "Comentario del usuario"
+      - name: fecha
+        description: "Fecha de la reseña"
+
+  - name: stg_historial_pagos
+    description: Modelo staging para la tabla Historial de Pagos
+    columns:
+      - name: pagoid
+        description: "Identificador único del pago"
+        tests:
+          - unique
+          - not_null
+      - name: ordenid
+        description: "Identificador de la orden asociada al pago"
+      - name: metodopagoid
+        description: "Identificador del método de pago utilizado"
+      - name: monto
+        description: "Monto del pago"
+        tests:
+          - not_null
+      - name: fechapago
+        description: "Fecha en que se realizó el pago"
+      - name: estadopago
+        description: "Estado actual del pago"

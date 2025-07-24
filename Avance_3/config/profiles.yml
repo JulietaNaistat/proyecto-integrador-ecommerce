@@ -1,0 +1,12 @@
+my_project:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: postgres-proyectointegrador
+      port: 5432
+      user: postgres
+      password: henry123
+      dbname: EcommerceDB
+      schema: public
+      threads: 4
