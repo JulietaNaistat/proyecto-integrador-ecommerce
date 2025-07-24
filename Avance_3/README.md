@@ -1,7 +1,7 @@
 
-# Proyecto Integrador: Análisis Regional de Ecommerce
+# Proyecto DBT: Análisis Regional de Ecommerce
 
-Este proyecto tiene como objetivo construir un modelo de datos escalable en dbt para analizar el rendimiento comercial por región en una plataforma de ecommerce.
+Este proyecto DBT tiene como objetivo construir un modelo de datos escalable en dbt para analizar el rendimiento comercial por región en una plataforma de ecommerce.
 
 ---
 
