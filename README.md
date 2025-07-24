@@ -1,6 +1,6 @@
-# Proyecto Integrador: Plataforma de Análisis de Datos para E-commerce
+# Proyecto Integrador: Datos para E-commerce
 
-## Descripción del Proyecto
+## Descripción
 
 Este proyecto implementa una solución completa de ingeniería de datos para una empresa emergente de comercio electrónico. El objetivo es transformar datos dispersos en archivos CSV en un modelo de datos relacional y dimensional que facilite el análisis y la toma de decisiones empresariales.
 
@@ -10,7 +10,7 @@ Este proyecto implementa una solución completa de ingeniería de datos para una
 - **Transformación de Datos**: DBT (Data Build Tool)
 - **Containerización**: Docker & Docker Compose
 - **Lenguajes**: SQL, Python
-- **Análisis**: Jupyter Notebooks
+- **Análisis**: Jupyter Notebooks y ORM - SQL ALchemy
 - **Modelado**: DBML (Database Markup Language)
 
 ## Estructura del Repositorio
@@ -45,7 +45,7 @@ proyecto-integrador-ecommerce/
 
 ---
 
-## Avance #1: Carga y Entendimiento de Datos
+## Avance 1: Carga y Entendimiento de Datos
 
 **Configuración de Base de Datos PostgreSQL**
 - Setup de contenedor Docker con PostgreSQL
@@ -77,7 +77,7 @@ proyecto-integrador-ecommerce/
 
 ---
 
-## Avance #2: Diseño del Modelo Dimensional
+## Avance 2: Diseño del Modelo Dimensional
 
 **Análisis de Requerimientos de Negocio**
 - Identificación de hechos y dimensiones según metodología Kimball
@@ -111,7 +111,7 @@ proyecto-integrador-ecommerce/
 
 ---
 
-## Avance #3: Implementación con DBT
+## Avance 3: Implementación con DBT
 
 **Construcción del Modelo Físico**
 - Implementación en DBT con arquitectura de capas
