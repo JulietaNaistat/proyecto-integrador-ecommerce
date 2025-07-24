@@ -44,5 +44,15 @@
 - **1:N**: un usuario puede tener muchas órdenes, pero cada orden pertenece a un solo usuario.
 - **N:M** (resueltas con tablas intermedias): por ejemplo, productos en órdenes → se resuelve con `Detalle_Ordenes`.
 
----
+### Conclusión
+Basado en el análisis previo y teniendo en cuenta que este modelo tiene:
+
+- Jerarquías geográficas (pais, provincia, ciudad).
+- Relaciones complejas (usuario → orden → detalle → producto).
+- Posibles cambios históricos (SCD).
+- Necesidad de integridad y trazabilidad y escalabilidad.
+
+Se decidio usar un Schema Snowflake como modelo de datos.
+
+
 
